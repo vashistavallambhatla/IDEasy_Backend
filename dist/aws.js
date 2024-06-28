@@ -19,7 +19,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const aws_sdk_1 = require("aws-sdk");
 const s3Client = new client_s3_1.S3Client({
-    region: "ap-south-1",
+    region: process.env.AWS_REGION,
     credentials: {
         accessKeyId: (_a = process.env.AWS_ACCESS_KEY_ID) !== null && _a !== void 0 ? _a : "",
         secretAccessKey: (_b = process.env.AWS_SECRET_ACCESS_KEY) !== null && _b !== void 0 ? _b : ""
