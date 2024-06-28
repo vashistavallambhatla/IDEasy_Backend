@@ -5,18 +5,19 @@ import path from "path";
 import { Readable } from 'stream';
 import { S3 } from "aws-sdk"
 
-const s3Client =new S3Client({
-    region : "ap-south-1",
-    credentials:{
-        accessKeyId:"AKIAYS2NQAVHRT35564C",
-        secretAccessKey:"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"
+const s3Client = new S3Client({
+    region: "ap-south-1",
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? ""
     }
-})
+});
 
 const s3 = new S3({
-    accessKeyId: "AKIAYS2NQAVHRT35564C",
-    secretAccessKey: "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"
-})
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "",
+});
+
 
 const streamToBuffer = async (stream: Readable): Promise<Buffer> => {
     return new Promise<Buffer>((resolve, reject) => {

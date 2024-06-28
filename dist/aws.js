@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveToS3 = exports.copyS3Folder = exports.fetchS3Folder = void 0;
 const client_s3_1 = require("@aws-sdk/client-s3");
@@ -20,13 +21,13 @@ const aws_sdk_1 = require("aws-sdk");
 const s3Client = new client_s3_1.S3Client({
     region: "ap-south-1",
     credentials: {
-        accessKeyId: "AKIAYS2NQAVHRT35564C",
-        secretAccessKey: "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"
+        accessKeyId: (_a = process.env.AWS_ACCESS_KEY_ID) !== null && _a !== void 0 ? _a : "",
+        secretAccessKey: (_b = process.env.AWS_SECRET_ACCESS_KEY) !== null && _b !== void 0 ? _b : ""
     }
 });
 const s3 = new aws_sdk_1.S3({
-    accessKeyId: "AKIAYS2NQAVHRT35564C",
-    secretAccessKey: "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"
+    accessKeyId: (_c = process.env.AWS_ACCESS_KEY_ID) !== null && _c !== void 0 ? _c : "",
+    secretAccessKey: (_d = process.env.AWS_SECRET_ACCESS_KEY) !== null && _d !== void 0 ? _d : "",
 });
 const streamToBuffer = (stream) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
@@ -37,20 +38,20 @@ const streamToBuffer = (stream) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 const fetchS3Folder = (key, localPath) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _e;
     try {
         const params = {
-            Bucket: (_a = process.env.S3_BUCKET) !== null && _a !== void 0 ? _a : "ideasy",
+            Bucket: (_e = process.env.S3_BUCKET) !== null && _e !== void 0 ? _e : "ideasy",
             Prefix: key
         };
         const response = yield s3Client.send(new client_s3_1.ListObjectsV2Command(params));
         if (response.Contents) {
             yield Promise.all(response.Contents.map((file) => __awaiter(void 0, void 0, void 0, function* () {
-                var _b;
+                var _f;
                 const fileKey = file.Key;
                 if (fileKey) {
                     const getObjectParams = {
-                        Bucket: (_b = process.env.S3_BUCKET) !== null && _b !== void 0 ? _b : "ideasy",
+                        Bucket: (_f = process.env.S3_BUCKET) !== null && _f !== void 0 ? _f : "ideasy",
                         Key: fileKey
                     };
                     const data = yield s3Client.send(new client_s3_1.GetObjectCommand(getObjectParams));
@@ -127,10 +128,10 @@ function createFolder(dirName) {
     });
 }
 const saveToS3 = (key, filePath, content) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _g;
     console.log(`${key}${filePath}`);
     const params = {
-        Bucket: (_c = process.env.S3_BUCKET) !== null && _c !== void 0 ? _c : "ideasy",
+        Bucket: (_g = process.env.S3_BUCKET) !== null && _g !== void 0 ? _g : "ideasy",
         Key: `${key}${filePath}`,
         Body: content
     };
